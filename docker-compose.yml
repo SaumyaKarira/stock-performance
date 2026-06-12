@@ -1,0 +1,47 @@
+version: "3.9"
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  docker-compose.yml
+#
+#  Services:
+#    app      – Stock Performance Calculator (built from local Dockerfile)
+#    mailhog  – Fake SMTP server for local email testing
+#
+#  Usage:
+#    docker compose up --build          # build + run with default interval=7
+#    docker compose run app files/stock_prices.csv 30   # interval=30
+#    Open http://localhost:8025 to view captured emails in MailHog.
+# ─────────────────────────────────────────────────────────────────────────────
+
+services:
+
+  # ── Stock Performance Calculator ─────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: stock-performance-app
+    depends_on:
+      - mailhog
+    environment:
+      SMTP_HOST: mailhog
+      SMTP_PORT: "1025"
+      SMTP_AUTH: "false"
+      SMTP_TLS: "false"
+      EMAIL_FROM: reports@stock-performance.local
+      EMAIL_FROM_NAME: "Stock Performance Bot"
+      EMAIL_TO: analyst@example.com
+    volumes:
+      # Mount the output directory so generated CSVs are accessible on the host.
+      - ./output:/app/output
+    command: ["files/stock_prices.csv", "7"]
+
+  # ── MailHog – Fake SMTP for local e-mail testing ──────────────────────────
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    container_name: stock-performance-mailhog
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI  →  http://localhost:8025
+    restart: unless-stopped
+
