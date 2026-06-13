@@ -1,0 +1,56 @@
+2026-06-14 01:12:07.242 [main] INFO  com.project.repository.StockRepository - Monthly-average query returned 0 rows.
+2026-06-14 01:12:07.274 [main] INFO  com.project.repository.StockRepository - Monthly-average query returned 2 rows.
+2026-06-14 01:12:07.307 [main] INFO  c.project.service.MonthlyAverageService - Querying monthly average closing prices from database...
+2026-06-14 01:12:07.308 [main] WARN  c.project.service.MonthlyAverageService - Monthly-average query returned no data. Ensure CSVs loaded.
+2026-06-14 01:12:07.308 [main] INFO  c.project.service.MonthlyAverageService - Monthly averages written to: /var/folders/l9/scsmdn694vl7xcht1dc8w_zc0000gn/T/junit16338890918603324224/monthly_average_prices.csv
+2026-06-14 01:12:07.308 [main] INFO  c.project.service.MonthlyAverageService - EMAIL_TO not configured - skipping email.
+2026-06-14 01:12:07.314 [main] INFO  c.project.service.MonthlyAverageService - Querying monthly average closing prices from database...
+2026-06-14 01:12:07.314 [main] INFO  c.project.service.MonthlyAverageService - Monthly averages written to: /var/folders/l9/scsmdn694vl7xcht1dc8w_zc0000gn/T/junit16967593303397199747/monthly_average_prices.csv
+2026-06-14 01:12:07.314 [main] INFO  c.project.service.MonthlyAverageService - EMAIL_TO not configured - skipping email.
+2026-06-14 01:12:07.315 [main] INFO  c.project.service.MonthlyAverageService - Querying monthly average closing prices from database...
+2026-06-14 01:12:07.315 [main] WARN  c.project.service.MonthlyAverageService - Monthly-average query returned no data. Ensure CSVs loaded.
+2026-06-14 01:12:07.315 [main] INFO  c.project.service.MonthlyAverageService - Monthly averages written to: /var/folders/l9/scsmdn694vl7xcht1dc8w_zc0000gn/T/junit2128260355075609114/monthly_average_prices.csv
+2026-06-14 01:12:07.315 [main] INFO  c.project.service.MonthlyAverageService - EMAIL_TO not configured - skipping email.
+2026-06-14 01:12:07.320 [main] INFO  c.p.service.MonthlyAverageCsvWriter - Writing 2 monthly-average rows to /var/folders/l9/scsmdn694vl7xcht1dc8w_zc0000gn/T/junit1558813974100591943/monthly_average_prices.csv
+2026-06-14 01:12:07.322 [main] INFO  c.p.service.MonthlyAverageCsvWriter - Successfully wrote monthly_average_prices.csv
+2026-06-14 01:12:07.324 [main] INFO  c.p.service.MonthlyAverageCsvWriter - Writing 1 monthly-average rows to /var/folders/l9/scsmdn694vl7xcht1dc8w_zc0000gn/T/junit2101019221852654180/sub/dir/out.csv
+2026-06-14 01:12:07.324 [main] INFO  c.p.service.MonthlyAverageCsvWriter - Successfully wrote out.csv
+2026-06-14 01:12:07.327 [main] INFO  c.p.service.MonthlyAverageCsvWriter - Writing 0 monthly-average rows to /var/folders/l9/scsmdn694vl7xcht1dc8w_zc0000gn/T/junit9620530507498275055/out.csv
+2026-06-14 01:12:07.327 [main] INFO  c.p.service.MonthlyAverageCsvWriter - Successfully wrote out.csv
+2026-06-14 01:12:07.334 [main] INFO  com.project.service.CsvWriterService - Writing 0 records to /var/folders/l9/scsmdn694vl7xcht1dc8w_zc0000gn/T/junit12322641107763607187/empty.csv
+2026-06-14 01:12:07.335 [main] INFO  com.project.service.CsvWriterService - Successfully wrote empty.csv
+2026-06-14 01:12:07.336 [main] INFO  com.project.service.CsvWriterService - Writing 1 records to /var/folders/l9/scsmdn694vl7xcht1dc8w_zc0000gn/T/junit17046997793854968339/sub/dir/7day.csv
+2026-06-14 01:12:07.336 [main] INFO  com.project.service.CsvWriterService - Successfully wrote 7day.csv
+2026-06-14 01:12:07.337 [main] INFO  com.project.service.CsvWriterService - Writing 2 records to /var/folders/l9/scsmdn694vl7xcht1dc8w_zc0000gn/T/junit929140470506147320/7day.csv
+2026-06-14 01:12:07.338 [main] INFO  com.project.service.CsvWriterService - Successfully wrote 7day.csv
+2026-06-14 01:12:07.339 [main] INFO  com.project.service.CsvWriterService - Writing 1 records to /var/folders/l9/scsmdn694vl7xcht1dc8w_zc0000gn/T/junit11327824796182318889/rt.csv
+2026-06-14 01:12:07.340 [main] INFO  com.project.service.CsvWriterService - Successfully wrote rt.csv
+2026-06-14 01:12:07.351 [main] INFO  com.project.service.CsvReaderService - Loaded 1 stock identifiers from stock_identifiers.csv
+2026-06-14 01:12:07.352 [main] INFO  com.project.service.CsvReaderService - Loaded 1 price records from stock_prices.csv
+2026-06-14 01:12:07.354 [main] INFO  com.project.service.CsvReaderService - Loaded 1 stock identifiers from stock_identifiers.csv
+2026-06-14 01:12:07.354 [main] INFO  com.project.service.CsvReaderService - Loaded 2 price records from stock_prices.csv
+2026-06-14 01:12:07.355 [main] INFO  com.project.service.CsvReaderService - Loaded 1 stock identifiers from stock_identifiers.csv
+2026-06-14 01:12:07.355 [main] WARN  com.project.service.CsvReaderService - Skipped 1 malformed or unresolvable price rows.
+2026-06-14 01:12:07.355 [main] INFO  com.project.service.CsvReaderService - Loaded 1 price records from stock_prices.csv
+2026-06-14 01:12:07.357 [main] INFO  com.project.service.CsvReaderService - Loaded 0 stock identifiers from stock_identifiers.csv
+2026-06-14 01:12:07.359 [main] WARN  com.project.service.CsvReaderService - Skipped 1 malformed or unresolvable price rows.
+2026-06-14 01:12:07.359 [main] INFO  com.project.service.CsvReaderService - Loaded 0 price records from stock_prices.csv
+2026-06-14 01:12:07.361 [main] INFO  com.project.service.CsvReaderService - Loaded 1 stock identifiers from stock_identifiers.csv
+2026-06-14 01:12:07.361 [main] INFO  com.project.service.CsvReaderService - Loaded 1 price records from stock_prices.csv
+2026-06-14 01:12:07.362 [main] WARN  com.project.service.CsvReaderService - Skipping incomplete identifier row #1: CSVRecord [comment='null', recordNumber=1, values=[99, Unknown, ]]
+2026-06-14 01:12:07.366 [main] WARN  c.project.service.DatabaseLoaderService - Skipping malformed price row #1: Cannot parse decimal 'INVALID' at row 1
+2026-06-14 01:12:07.366 [main] INFO  c.project.service.DatabaseLoaderService - Parsed 1 price rows, 1 skipped from prices.csv
+2026-06-14 01:12:07.368 [main] WARN  c.project.service.DatabaseLoaderService - Skipping incomplete identifier row #1
+2026-06-14 01:12:07.368 [main] INFO  c.project.service.DatabaseLoaderService - Parsed 1 identifier rows, 1 skipped from ids.csv
+2026-06-14 01:12:07.369 [main] INFO  c.project.service.DatabaseLoaderService - Parsed 1 identifier rows, 0 skipped from ids.csv
+2026-06-14 01:12:07.370 [main] INFO  c.project.service.DatabaseLoaderService - Parsed 3 identifier rows, 0 skipped from stock_identifiers.csv
+2026-06-14 01:12:07.371 [main] INFO  c.project.service.DatabaseLoaderService - Parsed 2 price rows, 0 skipped from stock_prices.csv
+2026-06-14 01:12:07.374 [main] INFO  c.project.service.DatabaseLoaderService - Parsed 1 price rows, 0 skipped from prices.csv
+2026-06-14 01:12:07.376 [main] WARN  c.project.service.PerformanceCalculator - Symbol 'AAPL' has only 3 records — need at least 6 for interval 5. Skipping.
+2026-06-14 01:12:07.376 [main] INFO  c.project.service.PerformanceCalculator - Calculated 0 performance records for interval=5.
+2026-06-14 01:12:07.377 [main] INFO  c.project.service.PerformanceCalculator - Calculated 2 performance records for interval=1.
+2026-06-14 01:12:07.377 [main] INFO  c.project.service.PerformanceCalculator - Calculated 4 performance records for interval=1.
+2026-06-14 01:12:07.379 [main] INFO  c.project.service.PerformanceCalculator - Calculated 8 performance records for interval=1.
+2026-06-14 01:12:07.380 [main] WARN  c.project.service.PerformanceCalculator - Previous price is zero — returning 0 performance.
+2026-06-14 01:12:07.381 [main] INFO  c.project.service.PerformanceCalculator - Calculated 2 performance records for interval=3.
+2026-06-14 01:12:07.382 [main] INFO  c.project.service.PerformanceCalculator - Calculated 4 performance records for interval=1.

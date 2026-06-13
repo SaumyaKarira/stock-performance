@@ -1,8 +1,8 @@
-/Users/saumya_karira@optum.com/IdeaProjects/stock-performance/src/test/java/com/project/model/ModelTest.java
-/Users/saumya_karira@optum.com/IdeaProjects/stock-performance/src/test/java/com/project/repository/StockRepositoryTest.java
-/Users/saumya_karira@optum.com/IdeaProjects/stock-performance/src/test/java/com/project/service/CsvReaderServiceTest.java
-/Users/saumya_karira@optum.com/IdeaProjects/stock-performance/src/test/java/com/project/service/CsvWriterServiceTest.java
-/Users/saumya_karira@optum.com/IdeaProjects/stock-performance/src/test/java/com/project/service/DatabaseLoaderServiceTest.java
-/Users/saumya_karira@optum.com/IdeaProjects/stock-performance/src/test/java/com/project/service/MonthlyAverageCsvWriterTest.java
-/Users/saumya_karira@optum.com/IdeaProjects/stock-performance/src/test/java/com/project/service/MonthlyAverageServiceTest.java
-/Users/saumya_karira@optum.com/IdeaProjects/stock-performance/src/test/java/com/project/service/PerformanceCalculatorTest.java
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/test/java/com/project/model/ModelTest.java
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/test/java/com/project/repository/StockRepositoryTest.java
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/test/java/com/project/service/CsvReaderServiceTest.java
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/test/java/com/project/service/CsvWriterServiceTest.java
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/test/java/com/project/service/DatabaseLoaderServiceTest.java
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/test/java/com/project/service/MonthlyAverageCsvWriterTest.java
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/test/java/com/project/service/MonthlyAverageServiceTest.java
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/test/java/com/project/service/PerformanceCalculatorTest.java

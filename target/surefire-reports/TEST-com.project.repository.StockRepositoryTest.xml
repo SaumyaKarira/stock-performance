@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.project.service.PerformanceCalculatorTest" time="0.007" tests="12" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.project.repository.StockRepositoryTest" time="0.573" tests="10" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -59,38 +59,20 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="calculate_skipsSymbolWithFewRecords" classname="com.project.service.PerformanceCalculatorTest" time="0.002">
-    <system-out><![CDATA[01:12:07.376 [main] WARN  c.p.service.PerformanceCalculator - Symbol 'AAPL' has only 3 records — need at least 6 for interval 5. Skipping.
-01:12:07.376 [main] INFO  c.p.service.PerformanceCalculator - Calculated 0 performance records for interval=5.
+  <testcase name="getMonthlyAverages_emptyResultSet" classname="com.project.repository.StockRepositoryTest" time="0.546">
+    <system-out><![CDATA[01:12:07.242 [main] INFO  c.project.repository.StockRepository - Monthly-average query returned 0 rows.
 ]]></system-out>
   </testcase>
-  <testcase name="calculate_returnsImmutableList" classname="com.project.service.PerformanceCalculatorTest" time="0.0">
-    <system-out><![CDATA[01:12:07.377 [main] INFO  c.p.service.PerformanceCalculator - Calculated 2 performance records for interval=1.
+  <testcase name="insertPrices_emptyList_returnsZero" classname="com.project.repository.StockRepositoryTest" time="0.002"/>
+  <testcase name="insertPrices_successNoInfo_countedAsOne" classname="com.project.repository.StockRepositoryTest" time="0.003"/>
+  <testcase name="sqlMonthlyAvg_containsExpectedKeywords" classname="com.project.repository.StockRepositoryTest" time="0.002"/>
+  <testcase name="insertIdentifiers_insertsAndCommits" classname="com.project.repository.StockRepositoryTest" time="0.002"/>
+  <testcase name="hasIdentifiers_trueWhenRowsExist" classname="com.project.repository.StockRepositoryTest" time="0.001"/>
+  <testcase name="hasIdentifiers_falseWhenEmpty" classname="com.project.repository.StockRepositoryTest" time="0.001"/>
+  <testcase name="constructor_rejectsNull" classname="com.project.repository.StockRepositoryTest" time="0.002"/>
+  <testcase name="insertIdentifiers_emptyList_returnsZero" classname="com.project.repository.StockRepositoryTest" time="0.001"/>
+  <testcase name="getMonthlyAverages_mapsRows" classname="com.project.repository.StockRepositoryTest" time="0.002">
+    <system-out><![CDATA[01:12:07.274 [main] INFO  c.project.repository.StockRepository - Monthly-average query returned 2 rows.
 ]]></system-out>
   </testcase>
-  <testcase name="calculate_resultSorted" classname="com.project.service.PerformanceCalculatorTest" time="0.001">
-    <system-out><![CDATA[01:12:07.377 [main] INFO  c.p.service.PerformanceCalculator - Calculated 4 performance records for interval=1.
-]]></system-out>
-  </testcase>
-  <testcase name="calculate_throwsOnNonPositiveInterval" classname="com.project.service.PerformanceCalculatorTest" time="0.001"/>
-  <testcase name="computePercentage_unchanged" classname="com.project.service.PerformanceCalculatorTest" time="0.0"/>
-  <testcase name="calculate_multipleSymbols" classname="com.project.service.PerformanceCalculatorTest" time="0.001">
-    <system-out><![CDATA[01:12:07.379 [main] INFO  c.p.service.PerformanceCalculator - Calculated 8 performance records for interval=1.
-]]></system-out>
-  </testcase>
-  <testcase name="computePercentage_zeroPrevious" classname="com.project.service.PerformanceCalculatorTest" time="0.001">
-    <system-out><![CDATA[01:12:07.380 [main] WARN  c.p.service.PerformanceCalculator - Previous price is zero — returning 0 performance.
-]]></system-out>
-  </testcase>
-  <testcase name="calculate_correctValueInterval3" classname="com.project.service.PerformanceCalculatorTest" time="0.0">
-    <system-out><![CDATA[01:12:07.381 [main] INFO  c.p.service.PerformanceCalculator - Calculated 2 performance records for interval=3.
-]]></system-out>
-  </testcase>
-  <testcase name="computePercentage_gain" classname="com.project.service.PerformanceCalculatorTest" time="0.0"/>
-  <testcase name="computePercentage_loss" classname="com.project.service.PerformanceCalculatorTest" time="0.0"/>
-  <testcase name="calculate_recordCount" classname="com.project.service.PerformanceCalculatorTest" time="0.001">
-    <system-out><![CDATA[01:12:07.382 [main] INFO  c.p.service.PerformanceCalculator - Calculated 4 performance records for interval=1.
-]]></system-out>
-  </testcase>
-  <testcase name="calculate_throwsOnNullPrices" classname="com.project.service.PerformanceCalculatorTest" time="0.0"/>
 </testsuite>
