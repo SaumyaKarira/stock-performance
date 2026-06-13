@@ -1,320 +1,398 @@
-# Stock Performance Calculator
+# Stock Performance Calculator — Part 1 + Part 2
 
-A **Java 17 / Maven** command-line application that calculates N-trading-day
-price performance for a configurable set of stock symbols, writes output CSV
-reports, and optionally e-mails the results via SMTP (with MailHog for local
-testing).
+A production-quality Java 17 / Maven application that processes historical stock prices, loads them into MySQL, computes monthly average closing prices via SQL, and emails the result.
 
 ---
 
 ## Table of Contents
-
-1. [Project Overview](#project-overview)
-2. [Assumptions](#assumptions)
-3. [Architecture Explanation](#architecture-explanation)
-4. [Folder Structure](#folder-structure)
-5. [Build Instructions](#build-instructions)
-6. [Run Instructions](#run-instructions)
-7. [Docker Instructions](#docker-instructions)
-8. [Sample Commands](#sample-commands)
-9. [Email Configuration](#email-configuration)
-10. [Design Decisions](#design-decisions)
-
----
-
-## Project Overview
-
-Given two CSV files:
-
-| File | Description |
-|---|---|
-| `stock_identifiers.csv` | Maps numeric `id_stock` → ticker symbol (AAPL, GOOG, …) |
-| `stock_prices.csv` | One year of daily OHLC prices, keyed by `id_stock` |
-
-The application:
-
-1. Reads and joins the two files.
-2. Groups price records by symbol.
-3. Calculates **% performance** over the specified number of **trading days**
-   (weekends and market holidays are automatically excluded because they simply
-   do not appear in the price records).
-4. Writes one output CSV per interval (`7day.csv`, `14day.csv`, `30day.csv`).
-5. Sends the CSV files as email attachments (MailHog for local testing).
-
-**Formula:**
-
-```
-performance = ((closePrice[i] - closePrice[i - N]) / closePrice[i - N]) × 100
-```
+1. [Project Structure](#project-structure)
+2. [Architecture & Design Decisions](#architecture--design-decisions)
+3. [Prerequisites](#prerequisites)
+4. [Quick Start — Docker Compose](#quick-start--docker-compose)
+5. [Task 1 — MySQL Database](#task-1--mysql-database)
+6. [Task 2 — Monthly Average Prices](#task-2--monthly-average-prices)
+7. [Task 3 — Email Job](#task-3--email-job)
+8. [Task 4 — Docker Compose Networking](#task-4--docker-compose-networking)
+9. [Task 5 — Database Initialization Strategy](#task-5--database-initialization-strategy)
+10. [Connecting from DBeaver / MySQL Workbench](#connecting-from-dbeaver--mysql-workbench)
+11. [Verifying the Generated CSV](#verifying-the-generated-csv)
+12. [Part 1 — CSV Mode](#part-1--csv-mode)
+13. [Running Tests](#running-tests)
+14. [Environment Variables Reference](#environment-variables-reference)
 
 ---
 
-## Assumptions
-
-| # | Assumption |
-|---|---|
-| 1 | The `stock_prices.csv` contains **only trading days**. Weekends and market holidays are absent from the file, so no calendar logic is needed. |
-| 2 | The `id_stock` column may be a quoted number containing commas (e.g. `"40,359,100"`). The application normalises these by removing commas before using them as lookup keys. |
-| 3 | The `close` price is used as the representative daily price (not `open`, `high`, or `low`). |
-| 4 | The three required output intervals are **7, 14, and 30** trading days. These are always computed regardless of the CLI interval. |
-| 5 | The CLI interval is an _additional_ interval computed on top of the required three (unless it is already 7, 14, or 30). |
-| 6 | The identifiers file must be located in the **same directory** as the prices file and must be named `stock_identifiers.csv`. |
-| 7 | Output CSVs are written to an `output/` directory relative to the current working directory. |
-| 8 | Email sending is **best-effort**: if SMTP fails, the application logs a warning but exits with code 0. |
-| 9 | `BigDecimal` is used for all price arithmetic to avoid floating-point rounding errors. |
-| 10 | Performance values are rounded to **4 decimal places** (basis-point precision). |
-
----
-
-## Architecture Explanation
-
-```
-com.nasdaq
-├── Main                  Entry point; argument validation + orchestration
-├── model
-│   ├── StockPrice         Value object: symbol + date + close price
-│   └── PerformanceRecord  Value object: date + symbol + computed % performance
-├── service
-│   ├── CsvReaderService   Reads & joins the two input CSVs → List<StockPrice>
-│   ├── PerformanceCalculator  Core business logic → List<PerformanceRecord>
-│   ├── CsvWriterService   Writes PerformanceRecords to output CSV
-│   └── EmailService       Sends output CSVs as SMTP attachments
-└── util
-    └── FileUtils          Path resolution + directory creation helpers
-```
-
-### Data flow
-
-```
-stock_identifiers.csv ──┐
-                        ├─→ CsvReaderService ─→ List<StockPrice>
-stock_prices.csv ───────┘                              │
-                                                       ▼
-                                         PerformanceCalculator
-                                                       │
-                                         List<PerformanceRecord>
-                                                       │
-                                           CsvWriterService
-                                                       │
-                                         7day.csv / 14day.csv / 30day.csv
-                                                       │
-                                           EmailService (best-effort)
-```
-
----
-
-## Folder Structure
+## Project Structure
 
 ```
 stock-performance/
-├── Dockerfile
-├── docker-compose.yml
-├── pom.xml
-├── README.md
 ├── files/
-│   ├── stock_identifiers.csv
-│   └── stock_prices.csv
-├── output/                          ← generated at runtime
-│   ├── 7day.csv
-│   ├── 14day.csv
-│   └── 30day.csv
-└── src/
-    ├── main/
-    │   ├── java/com/nasdaq/
-    │   │   ├── Main.java
-    │   │   ├── model/
-    │   │   │   ├── StockPrice.java
-    │   │   │   └── PerformanceRecord.java
-    │   │   ├── service/
-    │   │   │   ├── CsvReaderService.java
-    │   │   │   ├── PerformanceCalculator.java
-    │   │   │   ├── CsvWriterService.java
-    │   │   │   └── EmailService.java
-    │   │   └── util/
-    │   │       └── FileUtils.java
-    │   └── resources/
-    │       └── logback.xml
-    └── test/
-        ├── java/com/nasdaq/
-        │   ├── model/
-        │   │   └── ModelTest.java
-        │   └── service/
-        │       ├── CsvReaderServiceTest.java
-        │       ├── PerformanceCalculatorTest.java
-        │       └── CsvWriterServiceTest.java
-        └── resources/
-            ├── test_identifiers.csv
-            └── test_prices.csv
+│   ├── stock_identifiers.csv        # 5 stock symbols (AAPL, GOOG, MSFT, NVDA, SPX)
+│   └── stock_prices.csv             # ~1301 daily OHLC rows (Jan 2025 – Jan 2026)
+├── sql/
+│   └── schema.sql                   # MySQL schema (auto-loaded on first container start)
+├── output/                          # Generated CSVs land here (Docker volume mount)
+├── src/
+│   └── main/java/com/project/
+│       ├── Main.java                # Entry point (routes csv / db mode)
+│       ├── config/
+│       │   └── DatabaseConfig.java  # HikariCP DataSource factory
+│       ├── model/
+│       │   ├── MonthlyAverage.java  # Record: symbol, month, averagePrice
+│       │   ├── PerformanceRecord.java
+│       │   └── StockPrice.java
+│       ├── repository/
+│       │   └── StockRepository.java # JDBC repository (INSERT IGNORE + SQL aggregation)
+│       ├── service/
+│       │   ├── DatabaseLoaderService.java     # CSV → MySQL bulk loader
+│       │   ├── MonthlyAverageCsvWriter.java   # Writes monthly_average_prices.csv
+│       │   ├── MonthlyAverageService.java     # Orchestrator: DB → CSV → Email
+│       │   ├── CsvReaderService.java
+│       │   ├── CsvWriterService.java
+│       │   └── EmailService.java
+│       └── util/
+│           └── FileUtils.java
+├── docker-compose.yml
+├── Dockerfile
+└── pom.xml
 ```
 
 ---
 
-## Build Instructions
+## Architecture & Design Decisions
 
-### Prerequisites
+### Why Java-based CSV loading instead of `LOAD DATA INFILE`?
 
-- Java 17+
-- Maven 3.8+
+The `id_stock` column in both CSV files uses quoted comma-formatted numbers
+(e.g. `"40,359,100"` = 40 359 100). MySQL's `LOAD DATA INFILE` cannot perform
+this transformation without complex `@var` tricks. Additionally, `LOAD DATA INFILE`
+requires MySQL's `secure_file_priv` to be configured, which complicates Docker setup.
+
+Using the existing Apache Commons CSV parser in Java is:
+- **Simpler** — reuses battle-tested code already in the project
+- **More portable** — works on any OS without MySQL file permissions
+- **More testable** — pure Java unit tests cover all edge cases
+
+### Why HikariCP?
+
+HikariCP is the fastest, most battle-tested connection pool on the JVM, used as the
+default in Spring Boot. The pool is sized conservatively (max 5) since this is a
+batch job, not a web server.
+
+### Why SQL aggregation for monthly averages?
+
+```sql
+SELECT
+    si.symbol,
+    UPPER(DATE_FORMAT(sp.price_date, '%b')) AS month,
+    ROUND(AVG(sp.close), 2)                AS average_price
+FROM  stock_prices sp
+INNER JOIN stock_identifiers si ON sp.id_stock = si.id_stock
+GROUP BY si.symbol, YEAR(sp.price_date), MONTH(sp.price_date)
+ORDER BY si.symbol ASC, YEAR(sp.price_date) ASC, MONTH(sp.price_date) ASC
+```
+
+Pushing aggregation to the database engine is:
+- **Faster** than Java-side grouping loops for large datasets
+- **Correct** — the DB handles precision and rounding consistently
+- **Auditable** — the SQL is readable, testable, and independent of application code
+
+### Why `INSERT IGNORE`?
+
+Makes every `docker compose up` idempotent — re-running never duplicates rows.
+The `UNIQUE KEY uq_stock_date (id_stock, price_date)` also enforces uniqueness
+at the database level.
+
+### Why Option A (MySQL schema + Java CSV loader)?
+
+| | Option A (chosen) | Option B (MySQL-only) |
+|---|---|---|
+| Schema init | MySQL init script | MySQL init script |
+| Data loading | Java application | `LOAD DATA INFILE` |
+| Handles quoted IDs | ✅ Java parsing | ❌ Needs workarounds |
+| Portable | ✅ No file permissions | ❌ Needs `secure_file_priv` |
+| Testable | ✅ JUnit + TempDir | ❌ Hard to unit test |
+
+---
+
+## Prerequisites
+
+- Docker Desktop (includes `docker compose`)
+- Java 17+ and Maven (only needed for local development / tests)
+
+---
+
+## Quick Start — Docker Compose
 
 ```bash
-# Clone / open the project, then:
+# 1. Clone / open the project
 cd stock-performance
 
-# Compile and run unit tests
-mvn clean verify
+# 2. Build and run all services
+docker compose up --build
 
-# Build the fat jar (skipping tests)
-mvn clean package -DskipTests
+# 3. Check email in MailHog web UI
+open http://localhost:8025
 
-# The jar is at:
-target/stock-performance.jar
+# 4. Find the generated CSV
+cat output/monthly_average_prices.csv
+```
+
+The first run will:
+1. Start MySQL 8, run `schema.sql`, create `stockdb` with two tables
+2. Start MailHog (fake SMTP)
+3. Start the app, wait for MySQL to be healthy, then:
+   - Load `stock_identifiers.csv` → `stock_identifiers` table
+   - Load `stock_prices.csv` → `stock_prices` table (~1301 rows)
+   - Query monthly averages via SQL
+   - Write `output/monthly_average_prices.csv`
+   - Email the CSV to MailHog
+
+Subsequent `docker compose up` runs skip the CSV load (tables already populated).
+
+To reset the database:
+```bash
+docker compose down -v   # removes the mysql-data volume
+docker compose up --build
 ```
 
 ---
 
-## Run Instructions
+## Task 1 — MySQL Database
 
-```bash
-java -jar target/stock-performance.jar <path/to/stock_prices.csv> <interval>
-```
+The `mysql` service uses the official `mysql:8.0` image:
 
-| Argument | Description |
+| Property | Value |
 |---|---|
-| `stock_prices.csv` | Path to the prices file (relative or absolute). The identifiers file must be in the same directory. |
-| `interval` | Positive integer — number of trading days to look back. |
+| Host (from host machine) | `localhost:3306` |
+| Host (from other containers) | `mysql:3306` |
+| Database | `stockdb` |
+| User | `stockuser` |
+| Password | `stockpass` |
+| Root password | `rootpassword` |
 
-**Examples:**
+Schema (see `sql/schema.sql`):
+
+```sql
+stock_identifiers (id_stock BIGINT PK, name VARCHAR, symbol VARCHAR UNIQUE)
+stock_prices      (id INT PK AUTO_INCREMENT, id_stock FK, high, low, close DECIMAL(14,4), price_date DATE, UNIQUE(id_stock, price_date))
+```
+
+---
+
+## Task 2 — Monthly Average Prices
+
+Output file: `output/monthly_average_prices.csv`
+
+Format:
+```
+symbol,month,average_price
+AAPL,JAN,222.77
+AAPL,FEB,229.61
+...
+```
+
+The dataset spans January 2025 to January 2026 (approximately 13 months). The query
+groups by `(symbol, year, month)`, so January appears twice per symbol — once for
+Jan 2025 and once for the partial Jan 2026 data. This is the accurate representation
+of the dataset.
+
+---
+
+## Task 3 — Email Job
+
+The existing `EmailService` (Jakarta Mail / Angus Mail) is reused unchanged.
+`MonthlyAverageService` calls it after writing the CSV:
+
+```
+EmailService.EmailConfig.fromEnv()  → reads SMTP_HOST, SMTP_PORT, etc.
+EmailService.send(List.of(csvFile)) → attaches monthly_average_prices.csv
+```
+
+**MailHog** (local testing):
+- SMTP: `localhost:1025`
+- Web UI: http://localhost:8025
+- No authentication, no TLS
+
+**Production SMTP**:
+```bash
+EMAIL_TO=you@example.com SMTP_HOST=smtp.gmail.com SMTP_PORT=587 \
+SMTP_AUTH=true SMTP_TLS=true SMTP_USER=you@gmail.com SMTP_PASS=apppassword \
+java -jar stock-performance.jar db
+```
+
+---
+
+## Task 4 — Docker Compose Networking
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                   Docker default bridge network              │
+│                                                             │
+│  ┌──────────┐   JDBC :3306    ┌─────────┐                   │
+│  │   app    │ ──────────────▶ │  mysql  │                   │
+│  │          │                 └─────────┘                   │
+│  │          │   SMTP :1025    ┌──────────┐                  │
+│  │          │ ──────────────▶ │ mailhog  │                  │
+│  └──────────┘                 └──────────┘                  │
+└─────────────────────────────────────────────────────────────┘
+         │                         │            │
+   host:output/              host:3306    host:8025
+```
+
+- Docker Compose creates a default bridge network.
+- Service names (`mysql`, `mailhog`) are DNS-resolvable inside the network.
+- `app` uses `DB_HOST=mysql` and `SMTP_HOST=mailhog` — these resolve to the correct
+  container IP addresses automatically.
+- The `depends_on: mysql: condition: service_healthy` ensures MySQL's healthcheck
+  passes before the app starts (healthcheck uses `mysqladmin ping`).
+- Port 3306 is exposed to the host for GUI clients (DBeaver, MySQL Workbench).
+- Port 8025 is exposed to the host for the MailHog Web UI.
+
+---
+
+## Task 5 — Database Initialization Strategy
+
+**Chosen: Option A — MySQL auto-schema + Java CSV loader**
+
+1. `sql/schema.sql` is mounted to `/docker-entrypoint-initdb.d/01-schema.sql`
+2. MySQL executes it **once** when the data volume is first created
+3. The Java application loads the CSV data on startup using JDBC batch inserts
+
+This is more production-quality than `LOAD DATA INFILE` because:
+- No MySQL file permission configuration required
+- Reuses the project's existing Apache Commons CSV parsing
+- Fully idempotent: `INSERT IGNORE` + existence check prevents duplicate loads
+- Unit-testable with `@TempDir` fixtures
+
+---
+
+## Connecting from DBeaver / MySQL Workbench
+
+1. Start the stack: `docker compose up`
+2. Open your SQL client and create a new **MySQL** connection:
+
+| Field | Value |
+|---|---|
+| Host | `127.0.0.1` |
+| Port | `3306` |
+| Database | `stockdb` |
+| Username | `stockuser` |
+| Password | `stockpass` |
+
+3. Verify the data:
+```sql
+SELECT COUNT(*) FROM stock_identifiers;   -- expect 5
+SELECT COUNT(*) FROM stock_prices;        -- expect ~1301
+SELECT * FROM stock_identifiers;
+SELECT * FROM stock_prices LIMIT 10;
+```
+
+4. Run the monthly average query manually:
+```sql
+SELECT
+    si.symbol,
+    UPPER(DATE_FORMAT(sp.price_date, '%b')) AS month,
+    ROUND(AVG(sp.close), 2)                AS average_price
+FROM  stock_prices sp
+INNER JOIN stock_identifiers si ON sp.id_stock = si.id_stock
+GROUP BY si.symbol, YEAR(sp.price_date), MONTH(sp.price_date)
+ORDER BY si.symbol ASC, YEAR(sp.price_date) ASC, MONTH(sp.price_date) ASC;
+```
+
+---
+
+## Verifying the Generated CSV
 
 ```bash
-# 7-day performance (also produces 14day.csv and 30day.csv)
+# After docker compose up
+cat output/monthly_average_prices.csv
+
+# Count rows: 5 symbols × up to 13 months + 1 header
+wc -l output/monthly_average_prices.csv
+
+# Spot-check AAPL
+grep "^AAPL" output/monthly_average_prices.csv
+
+# Open in Excel / Numbers
+open output/monthly_average_prices.csv
+```
+
+Expected first few lines:
+```
+symbol,month,average_price
+AAPL,JAN,222.77
+AAPL,FEB,229.61
+AAPL,MAR,220.04
+...
+```
+
+---
+
+## Part 1 — CSV Mode
+
+The original CSV-only mode is preserved. To run it:
+
+```bash
+# Via Docker Compose (override the command)
+docker compose run app files/stock_prices.csv 7
+
+# Locally
 java -jar target/stock-performance.jar files/stock_prices.csv 7
 
-# 30-day performance
-java -jar target/stock-performance.jar files/stock_prices.csv 30
-
-# Custom 60-day performance (produces 7day.csv, 14day.csv, 30day.csv, AND 60day.csv)
-java -jar target/stock-performance.jar files/stock_prices.csv 60
-```
-
-Output files are created in `./output/`.
-
----
-
-## Docker Instructions
-
-### Build the Docker image
-
-```bash
-docker build -t stock-performance:latest .
-```
-
-### Run with Docker (standalone)
-
-```bash
-# Default: 7-day performance
-docker run --rm -v "$(pwd)/output:/app/output" stock-performance:latest
-
-# Custom interval
-docker run --rm -v "$(pwd)/output:/app/output" \
-  stock-performance:latest files/stock_prices.csv 30
-```
-
-### Run with Docker Compose (includes MailHog)
-
-```bash
-# Start MailHog + run app with default interval=7
-docker compose up --build
-
-# Run app with a different interval (MailHog already running)
-docker compose run app files/stock_prices.csv 14
-
-# Stop all containers
-docker compose down
-```
-
-### View captured emails
-
-Open [http://localhost:8025](http://localhost:8025) in your browser to see all
-emails captured by MailHog.
-
----
-
-## Sample Commands
-
-```bash
-# 1.  Full build + test
-mvn clean verify
-
-# 2.  Run locally with interval=7
-java -jar target/stock-performance.jar files/stock_prices.csv 7
-
-# 3.  Run locally with interval=30
-java -jar target/stock-performance.jar files/stock_prices.csv 30
-
-# 4.  Docker Compose full stack
-docker compose up --build
-
-# 5.  Inspect output
-cat output/7day.csv | head -20
-```
-
-### Expected output format (`7day.csv`)
-
-```
-date,symbol,performance
-2025-01-29,AAPL,2.8521
-2025-01-29,GOOG,-1.2345
-2025-01-29,MSFT,0.9876
-2025-01-29,NVDA,5.1234
-2025-01-29,SPX,1.2300
-…
+# Without interval (produces 7day.csv, 14day.csv, 30day.csv)
+java -jar target/stock-performance.jar files/stock_prices.csv
 ```
 
 ---
 
-## Email Configuration
+## Running Tests
 
-Email settings are controlled via environment variables:
+```bash
+# All tests
+mvn test
+
+# Specific test class
+mvn test -Dtest=StockRepositoryTest
+
+# With full output
+mvn test -pl . --no-transfer-progress
+```
+
+Tests use Mockito 5 with the ByteBuddy subclass mock maker
+(`src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker`)
+for compatibility with JDK 21+.
+
+**Test coverage:**
+| Class | Tests |
+|---|---|
+| `StockRepository` | 10 |
+| `DatabaseLoaderService` | 8 |
+| `MonthlyAverageService` | 7 |
+| `MonthlyAverageCsvWriter` | 5 |
+| `CsvReaderService` | 9 |
+| `CsvWriterService` | 7 |
+| `PerformanceCalculator` | 12 |
+| `Model` | 11 |
+| **Total** | **69** |
+
+---
+
+## Environment Variables Reference
 
 | Variable | Default | Description |
 |---|---|---|
-| `SMTP_HOST` | `localhost` | SMTP server hostname |
-| `SMTP_PORT` | `1025` | SMTP port (1025 = MailHog) |
-| `SMTP_AUTH` | `false` | Whether SMTP authentication is required |
-| `SMTP_TLS` | `false` | Whether STARTTLS is enabled |
-| `SMTP_USER` | _(empty)_ | SMTP username (when auth=true) |
-| `SMTP_PASS` | _(empty)_ | SMTP password (when auth=true) |
+| `DB_HOST` | `localhost` | MySQL hostname |
+| `DB_PORT` | `3306` | MySQL port |
+| `DB_NAME` | `stockdb` | Database name |
+| `DB_USER` | `stockuser` | Database username |
+| `DB_PASSWORD` | `stockpass` | Database password |
+| `SMTP_HOST` | `localhost` | SMTP hostname (use `mailhog` in Docker) |
+| `SMTP_PORT` | `1025` | SMTP port |
+| `SMTP_AUTH` | `false` | Enable SMTP authentication |
+| `SMTP_TLS` | `false` | Enable STARTTLS |
+| `SMTP_USER` | _(empty)_ | SMTP username |
+| `SMTP_PASS` | _(empty)_ | SMTP password |
 | `EMAIL_FROM` | `reports@stock-performance.local` | Sender address |
 | `EMAIL_FROM_NAME` | `Stock Performance Bot` | Sender display name |
-| `EMAIL_TO` | `analyst@example.com` | Recipient address |
-
-**Production SMTP example (e.g. Gmail):**
-
-```bash
-SMTP_HOST=smtp.gmail.com \
-SMTP_PORT=587 \
-SMTP_AUTH=true \
-SMTP_TLS=true \
-SMTP_USER=you@gmail.com \
-SMTP_PASS=app-password \
-EMAIL_TO=recipient@example.com \
-java -jar target/stock-performance.jar files/stock_prices.csv 7
-```
-
----
-
-## Design Decisions
-
-| Decision | Rationale |
-|---|---|
-| **No Spring Boot** | The task is a pure CLI batch job. Spring Boot adds significant startup overhead and auto-configuration that would be wasted here. Plain Java 17 + Maven is leaner and more appropriate. |
-| **Apache Commons CSV** | Industry-standard library for RFC-4180 CSV parsing; correctly handles quoted fields that contain commas (critical for the `id_stock` column). |
-| **BigDecimal for prices and performance** | Eliminates IEEE 754 floating-point rounding errors that would silently corrupt performance percentages. |
-| **Records vs custom classes for model** | `StockPrice` and `PerformanceRecord` use hand-written classes rather than Java records to allow constructor-level validation and to keep the domain invariants enforced at construction time. |
-| **Trading-day interval via index arithmetic** | Instead of calendar subtraction, the previous price is looked up by array index `i - N`. This naturally skips weekends and holidays because they are absent from the sorted price list. |
-| **Always produce 7/14/30 day files** | The requirements explicitly list these three files; the CLI interval is produced additionally so the tool remains flexible for ad-hoc analysis. |
-| **Email is best-effort** | SMTP failure must not abort a successful batch run. The CSVs are already written; email is a delivery mechanism, not a correctness requirement. |
-| **Multi-stage Docker build** | The build stage uses the full JDK+Maven image; the runtime stage uses `eclipse-temurin:17-jre-alpine` (~85 MB) for a minimal attack surface and fast container start. |
-| **SLF4J + Logback** | The SLF4J façade decouples the application code from the logging implementation, making it easy to swap to Log4j2 or java.util.logging without touching business code. |
-| **Logback rolling file appender** | Keeps 7 days of logs, preventing unbounded disk usage in long-running scheduled deployments. |
-
+| `EMAIL_TO` | _(empty)_ | Recipient address (email skipped if not set) |

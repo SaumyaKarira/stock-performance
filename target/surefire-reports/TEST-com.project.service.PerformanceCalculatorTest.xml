@@ -1,96 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.project.service.PerformanceCalculatorTest" time="0.009" tests="12" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.project.service.PerformanceCalculatorTest" time="0.012" tests="12" errors="0" skipped="0" failures="0">
   <properties>
-    <property name="java.specification.version" value="21"/>
+    <property name="java.specification.version" value="26"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.class.path" value="/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/target/test-classes:/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/target/classes:/Users/saumyakarira/.m2/repository/org/apache/commons/commons-csv/1.11.0/commons-csv-1.11.0.jar:/Users/saumyakarira/.m2/repository/commons-io/commons-io/2.16.1/commons-io-2.16.1.jar:/Users/saumyakarira/.m2/repository/commons-codec/commons-codec/1.16.1/commons-codec-1.16.1.jar:/Users/saumyakarira/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar:/Users/saumyakarira/.m2/repository/ch/qos/logback/logback-classic/1.5.6/logback-classic-1.5.6.jar:/Users/saumyakarira/.m2/repository/ch/qos/logback/logback-core/1.5.6/logback-core-1.5.6.jar:/Users/saumyakarira/.m2/repository/jakarta/mail/jakarta.mail-api/2.1.3/jakarta.mail-api-2.1.3.jar:/Users/saumyakarira/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/saumyakarira/.m2/repository/org/eclipse/angus/angus-mail/2.0.3/angus-mail-2.0.3.jar:/Users/saumyakarira/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/saumyakarira/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/saumyakarira/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/saumyakarira/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/saumyakarira/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/saumyakarira/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/saumyakarira/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/saumyakarira/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/saumyakarira/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/saumyakarira/.m2/repository/org/mockito/mockito-core/5.11.0/mockito-core-5.11.0.jar:/Users/saumyakarira/.m2/repository/net/bytebuddy/byte-buddy/1.14.12/byte-buddy-1.14.12.jar:/Users/saumyakarira/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.12/byte-buddy-agent-1.14.12.jar:/Users/saumyakarira/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/saumyakarira/.m2/repository/org/mockito/mockito-junit-jupiter/5.11.0/mockito-junit-jupiter-5.11.0.jar:/Users/saumyakarira/.m2/repository/org/assertj/assertj-core/3.25.3/assertj-core-3.25.3.jar:"/>
+    <property name="java.class.path" value="/Users/saumya_karira@optum.com/IdeaProjects/stock-performance/target/test-classes:/Users/saumya_karira@optum.com/IdeaProjects/stock-performance/target/classes:/Users/saumya_karira@optum.com/.m2/repository/org/apache/commons/commons-csv/1.11.0/commons-csv-1.11.0.jar:/Users/saumya_karira@optum.com/.m2/repository/commons-io/commons-io/2.16.1/commons-io-2.16.1.jar:/Users/saumya_karira@optum.com/.m2/repository/commons-codec/commons-codec/1.16.1/commons-codec-1.16.1.jar:/Users/saumya_karira@optum.com/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar:/Users/saumya_karira@optum.com/.m2/repository/ch/qos/logback/logback-classic/1.5.6/logback-classic-1.5.6.jar:/Users/saumya_karira@optum.com/.m2/repository/ch/qos/logback/logback-core/1.5.6/logback-core-1.5.6.jar:/Users/saumya_karira@optum.com/.m2/repository/jakarta/mail/jakarta.mail-api/2.1.3/jakarta.mail-api-2.1.3.jar:/Users/saumya_karira@optum.com/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/saumya_karira@optum.com/.m2/repository/org/eclipse/angus/angus-mail/2.0.3/angus-mail-2.0.3.jar:/Users/saumya_karira@optum.com/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/saumya_karira@optum.com/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/mockito/mockito-core/5.11.0/mockito-core-5.11.0.jar:/Users/saumya_karira@optum.com/.m2/repository/net/bytebuddy/byte-buddy/1.14.12/byte-buddy-1.14.12.jar:/Users/saumya_karira@optum.com/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.12/byte-buddy-agent-1.14.12.jar:/Users/saumya_karira@optum.com/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/saumya_karira@optum.com/.m2/repository/org/mockito/mockito-junit-jupiter/5.11.0/mockito-junit-jupiter-5.11.0.jar:/Users/saumya_karira@optum.com/.m2/repository/org/assertj/assertj-core/3.25.3/assertj-core-3.25.3.jar:/Users/saumya_karira@optum.com/.m2/repository/com/mysql/mysql-connector-j/8.3.0/mysql-connector-j-8.3.0.jar:/Users/saumya_karira@optum.com/.m2/repository/com/google/protobuf/protobuf-java/3.25.1/protobuf-java-3.25.1.jar:/Users/saumya_karira@optum.com/.m2/repository/com/zaxxer/HikariCP/5.1.0/HikariCP-5.1.0.jar:"/>
     <property name="java.vm.vendor" value="Homebrew"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
     <property name="user.timezone" value="Asia/Kolkata"/>
     <property name="os.name" value="Mac OS X"/>
-    <property name="java.vm.specification.version" value="21"/>
+    <property name="java.vm.specification.version" value="26"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="IN"/>
-    <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk@21/21.0.11/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/target/surefire/surefirebooter-20260613005438448_3.jar /Users/saumyakarira/Downloads/IntellijProjects/stock-performance/target/surefire 2026-06-13T00-54-37_890-jvmRun1 surefire-20260613005438448_1tmp surefire_0-20260613005438448_2tmp"/>
-    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk/26.0.1/libexec/openjdk.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/saumya_karira@optum.com/IdeaProjects/stock-performance/target/surefire/surefirebooter-20260614004906337_3.jar /Users/saumya_karira@optum.com/IdeaProjects/stock-performance/target/surefire 2026-06-14T00-49-06_283-jvmRun1 surefire-20260614004906337_1tmp surefire_0-20260614004906337_2tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/target/test-classes:/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/target/classes:/Users/saumyakarira/.m2/repository/org/apache/commons/commons-csv/1.11.0/commons-csv-1.11.0.jar:/Users/saumyakarira/.m2/repository/commons-io/commons-io/2.16.1/commons-io-2.16.1.jar:/Users/saumyakarira/.m2/repository/commons-codec/commons-codec/1.16.1/commons-codec-1.16.1.jar:/Users/saumyakarira/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar:/Users/saumyakarira/.m2/repository/ch/qos/logback/logback-classic/1.5.6/logback-classic-1.5.6.jar:/Users/saumyakarira/.m2/repository/ch/qos/logback/logback-core/1.5.6/logback-core-1.5.6.jar:/Users/saumyakarira/.m2/repository/jakarta/mail/jakarta.mail-api/2.1.3/jakarta.mail-api-2.1.3.jar:/Users/saumyakarira/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/saumyakarira/.m2/repository/org/eclipse/angus/angus-mail/2.0.3/angus-mail-2.0.3.jar:/Users/saumyakarira/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/saumyakarira/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/saumyakarira/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/saumyakarira/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/saumyakarira/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/saumyakarira/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/saumyakarira/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/saumyakarira/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/saumyakarira/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/saumyakarira/.m2/repository/org/mockito/mockito-core/5.11.0/mockito-core-5.11.0.jar:/Users/saumyakarira/.m2/repository/net/bytebuddy/byte-buddy/1.14.12/byte-buddy-1.14.12.jar:/Users/saumyakarira/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.12/byte-buddy-agent-1.14.12.jar:/Users/saumyakarira/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/saumyakarira/.m2/repository/org/mockito/mockito-junit-jupiter/5.11.0/mockito-junit-jupiter-5.11.0.jar:/Users/saumyakarira/.m2/repository/org/assertj/assertj-core/3.25.3/assertj-core-3.25.3.jar:"/>
+    <property name="surefire.test.class.path" value="/Users/saumya_karira@optum.com/IdeaProjects/stock-performance/target/test-classes:/Users/saumya_karira@optum.com/IdeaProjects/stock-performance/target/classes:/Users/saumya_karira@optum.com/.m2/repository/org/apache/commons/commons-csv/1.11.0/commons-csv-1.11.0.jar:/Users/saumya_karira@optum.com/.m2/repository/commons-io/commons-io/2.16.1/commons-io-2.16.1.jar:/Users/saumya_karira@optum.com/.m2/repository/commons-codec/commons-codec/1.16.1/commons-codec-1.16.1.jar:/Users/saumya_karira@optum.com/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar:/Users/saumya_karira@optum.com/.m2/repository/ch/qos/logback/logback-classic/1.5.6/logback-classic-1.5.6.jar:/Users/saumya_karira@optum.com/.m2/repository/ch/qos/logback/logback-core/1.5.6/logback-core-1.5.6.jar:/Users/saumya_karira@optum.com/.m2/repository/jakarta/mail/jakarta.mail-api/2.1.3/jakarta.mail-api-2.1.3.jar:/Users/saumya_karira@optum.com/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/saumya_karira@optum.com/.m2/repository/org/eclipse/angus/angus-mail/2.0.3/angus-mail-2.0.3.jar:/Users/saumya_karira@optum.com/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/saumya_karira@optum.com/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/saumya_karira@optum.com/.m2/repository/org/mockito/mockito-core/5.11.0/mockito-core-5.11.0.jar:/Users/saumya_karira@optum.com/.m2/repository/net/bytebuddy/byte-buddy/1.14.12/byte-buddy-1.14.12.jar:/Users/saumya_karira@optum.com/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.12/byte-buddy-agent-1.14.12.jar:/Users/saumya_karira@optum.com/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/saumya_karira@optum.com/.m2/repository/org/mockito/mockito-junit-jupiter/5.11.0/mockito-junit-jupiter-5.11.0.jar:/Users/saumya_karira@optum.com/.m2/repository/org/assertj/assertj-core/3.25.3/assertj-core-3.25.3.jar:/Users/saumya_karira@optum.com/.m2/repository/com/mysql/mysql-connector-j/8.3.0/mysql-connector-j-8.3.0.jar:/Users/saumya_karira@optum.com/.m2/repository/com/google/protobuf/protobuf-java/3.25.1/protobuf-java-3.25.1.jar:/Users/saumya_karira@optum.com/.m2/repository/com/zaxxer/HikariCP/5.1.0/HikariCP-5.1.0.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
-    <property name="user.home" value="/Users/saumyakarira"/>
+    <property name="user.home" value="/Users/saumya_karira@optum.com"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="java.version.date" value="2026-04-21"/>
-    <property name="java.home" value="/opt/homebrew/Cellar/openjdk@21/21.0.11/libexec/openjdk.jdk/Contents/Home"/>
+    <property name="java.home" value="/opt/homebrew/Cellar/openjdk/26.0.1/libexec/openjdk.jdk/Contents/Home"/>
     <property name="file.separator" value="/"/>
-    <property name="basedir" value="/Users/saumyakarira/Downloads/IntellijProjects/stock-performance"/>
-    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="basedir" value="/Users/saumya_karira@optum.com/IdeaProjects/stock-performance"/>
+    <property name="java.vm.compressedOopsMode" value="Non-zero based"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/target/surefire/surefirebooter-20260613005438448_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/saumya_karira@optum.com/IdeaProjects/stock-performance/target/surefire/surefirebooter-20260614004906337_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
-    <property name="java.runtime.version" value="21.0.11"/>
-    <property name="user.name" value="saumyakarira"/>
+    <property name="java.runtime.version" value="26.0.1"/>
+    <property name="user.name" value="saumya_karira@optum.com"/>
     <property name="stdout.encoding" value="UTF-8"/>
     <property name="path.separator" value=":"/>
-    <property name="os.version" value="15.5"/>
+    <property name="os.version" value="26.5"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
     <property name="java.vendor.version" value="Homebrew"/>
-    <property name="localRepository" value="/Users/saumyakarira/.m2/repository"/>
+    <property name="localRepository" value="/Users/saumya_karira@optum.com/.m2/repository"/>
     <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
-    <property name="java.io.tmpdir" value="/var/folders/l9/scsmdn694vl7xcht1dc8w_zc0000gn/T/"/>
-    <property name="java.version" value="21.0.11"/>
-    <property name="user.dir" value="/Users/saumyakarira/Downloads/IntellijProjects/stock-performance"/>
+    <property name="java.io.tmpdir" value="/var/folders/qp/nsfxsw6x0450cz7xppfkqd000000gp/T/"/>
+    <property name="java.version" value="26.0.1"/>
+    <property name="user.dir" value="/Users/saumya_karira@optum.com/IdeaProjects/stock-performance"/>
     <property name="os.arch" value="aarch64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="native.encoding" value="UTF-8"/>
-    <property name="java.library.path" value="/Users/saumyakarira/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.library.path" value="/Users/saumya_karira@optum.com/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
     <property name="stderr.encoding" value="UTF-8"/>
     <property name="java.vendor" value="Homebrew"/>
-    <property name="java.vm.version" value="21.0.11"/>
+    <property name="java.vm.version" value="26.0.1"/>
+    <property name="stdin.encoding" value="UTF-8"/>
     <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
-    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
-    <property name="java.class.version" value="65.0"/>
+    <property name="java.class.version" value="70.0"/>
   </properties>
   <testcase name="calculate_skipsSymbolWithFewRecords" classname="com.project.service.PerformanceCalculatorTest" time="0.001">
-    <system-out><![CDATA[00:54:38.800 [main] WARN  c.p.service.PerformanceCalculator - Symbol 'AAPL' has only 3 records — need at least 6 for interval 5. Skipping.
-00:54:38.800 [main] INFO  c.p.service.PerformanceCalculator - Calculated 0 performance records for interval=5.
+    <system-out><![CDATA[00:49:07.254 [main] WARN  c.p.service.PerformanceCalculator - Symbol 'AAPL' has only 3 records — need at least 6 for interval 5. Skipping.
+00:49:07.254 [main] INFO  c.p.service.PerformanceCalculator - Calculated 0 performance records for interval=5.
 ]]></system-out>
   </testcase>
-  <testcase name="calculate_returnsImmutableList" classname="com.project.service.PerformanceCalculatorTest" time="0.001">
-    <system-out><![CDATA[00:54:38.801 [main] INFO  c.p.service.PerformanceCalculator - Calculated 2 performance records for interval=1.
+  <testcase name="calculate_returnsImmutableList" classname="com.project.service.PerformanceCalculatorTest" time="0.0">
+    <system-out><![CDATA[00:49:07.255 [main] INFO  c.p.service.PerformanceCalculator - Calculated 2 performance records for interval=1.
 ]]></system-out>
   </testcase>
   <testcase name="calculate_resultSorted" classname="com.project.service.PerformanceCalculatorTest" time="0.001">
-    <system-out><![CDATA[00:54:38.801 [main] INFO  c.p.service.PerformanceCalculator - Calculated 4 performance records for interval=1.
+    <system-out><![CDATA[00:49:07.256 [main] INFO  c.p.service.PerformanceCalculator - Calculated 4 performance records for interval=1.
 ]]></system-out>
   </testcase>
   <testcase name="calculate_throwsOnNonPositiveInterval" classname="com.project.service.PerformanceCalculatorTest" time="0.001"/>
   <testcase name="computePercentage_unchanged" classname="com.project.service.PerformanceCalculatorTest" time="0.0"/>
-  <testcase name="calculate_multipleSymbols" classname="com.project.service.PerformanceCalculatorTest" time="0.002">
-    <system-out><![CDATA[00:54:38.804 [main] INFO  c.p.service.PerformanceCalculator - Calculated 8 performance records for interval=1.
+  <testcase name="calculate_multipleSymbols" classname="com.project.service.PerformanceCalculatorTest" time="0.001">
+    <system-out><![CDATA[00:49:07.259 [main] INFO  c.p.service.PerformanceCalculator - Calculated 8 performance records for interval=1.
 ]]></system-out>
   </testcase>
   <testcase name="computePercentage_zeroPrevious" classname="com.project.service.PerformanceCalculatorTest" time="0.0">
-    <system-out><![CDATA[00:54:38.805 [main] WARN  c.p.service.PerformanceCalculator - Previous price is zero — returning 0 performance.
+    <system-out><![CDATA[00:49:07.260 [main] WARN  c.p.service.PerformanceCalculator - Previous price is zero — returning 0 performance.
 ]]></system-out>
   </testcase>
   <testcase name="calculate_correctValueInterval3" classname="com.project.service.PerformanceCalculatorTest" time="0.001">
-    <system-out><![CDATA[00:54:38.806 [main] INFO  c.p.service.PerformanceCalculator - Calculated 2 performance records for interval=3.
+    <system-out><![CDATA[00:49:07.260 [main] INFO  c.p.service.PerformanceCalculator - Calculated 2 performance records for interval=3.
 ]]></system-out>
   </testcase>
-  <testcase name="computePercentage_gain" classname="com.project.service.PerformanceCalculatorTest" time="0.0"/>
+  <testcase name="computePercentage_gain" classname="com.project.service.PerformanceCalculatorTest" time="0.001"/>
   <testcase name="computePercentage_loss" classname="com.project.service.PerformanceCalculatorTest" time="0.0"/>
   <testcase name="calculate_recordCount" classname="com.project.service.PerformanceCalculatorTest" time="0.0">
-    <system-out><![CDATA[00:54:38.807 [main] INFO  c.p.service.PerformanceCalculator - Calculated 4 performance records for interval=1.
+    <system-out><![CDATA[00:49:07.263 [main] INFO  c.p.service.PerformanceCalculator - Calculated 4 performance records for interval=1.
 ]]></system-out>
   </testcase>
-  <testcase name="calculate_throwsOnNullPrices" classname="com.project.service.PerformanceCalculatorTest" time="0.0"/>
+  <testcase name="calculate_throwsOnNullPrices" classname="com.project.service.PerformanceCalculatorTest" time="0.001"/>
 </testsuite>

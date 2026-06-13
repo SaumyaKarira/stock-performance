@@ -1,4 +1,8 @@
 com/project/service/PerformanceCalculatorTest.class
+com/project/service/CsvReaderServiceTest.class
+com/project/service/DatabaseLoaderServiceTest.class
+com/project/service/MonthlyAverageServiceTest.class
+com/project/service/MonthlyAverageCsvWriterTest.class
+com/project/repository/StockRepositoryTest.class
 com/project/model/ModelTest.class
 com/project/service/CsvWriterServiceTest.class
-com/project/service/CsvReaderServiceTest.class

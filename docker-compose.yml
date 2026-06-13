@@ -1,19 +1,55 @@
 version: "3.9"
 
 # ─────────────────────────────────────────────────────────────────────────────
-#  docker-compose.yml
+#  docker-compose.yml  (Part 1 + Part 2)
 #
 #  Services:
+#    mysql    – MySQL 8 database (auto-init schema on first start)
 #    app      – Stock Performance Calculator (built from local Dockerfile)
 #    mailhog  – Fake SMTP server for local email testing
 #
+#  Docker Networking:
+#    All three services share the default bridge network created by Compose.
+#    Service names act as DNS hostnames inside that network:
+#      app  → mysql:3306   (JDBC connection)
+#      app  → mailhog:1025 (SMTP)
+#    The mysql and mailhog ports are also exposed to the host so tools like
+#    MySQL Workbench, DBeaver, and the MailHog Web UI work from your laptop.
+#
 #  Usage:
-#    docker compose up --build          # build + run with default interval=7
-#    docker compose run app files/stock_prices.csv 30   # interval=30
+#    docker compose up --build          # full Part 2 run (DB + monthly averages)
+#    docker compose run app files/stock_prices.csv 7   # Part 1 CSV mode
 #    Open http://localhost:8025 to view captured emails in MailHog.
 # ─────────────────────────────────────────────────────────────────────────────
 
 services:
+
+  # ── MySQL 8 ──────────────────────────────────────────────────────────────
+  mysql:
+    image: mysql:8.0
+    container_name: stock-performance-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE:      stockdb
+      MYSQL_USER:          stockuser
+      MYSQL_PASSWORD:      stockpass
+    ports:
+      # Expose to the host so GUI clients (DBeaver / MySQL Workbench) can connect.
+      - "3306:3306"
+    volumes:
+      # Named volume keeps data across restarts; removing it resets the database.
+      - mysql-data:/var/lib/mysql
+      # schema.sql is executed exactly once when the data volume is empty.
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      # The app service waits for this to succeed before starting.
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost",
+             "-u", "root", "--password=rootpassword"]
+      interval:     10s
+      timeout:       5s
+      retries:       8
+      start_period: 30s
+    restart: unless-stopped
 
   # ── Stock Performance Calculator ─────────────────────────────────────────
   app:
@@ -22,26 +58,42 @@ services:
       dockerfile: Dockerfile
     container_name: stock-performance-app
     depends_on:
-      - mailhog
+      mysql:
+        condition: service_healthy     # wait until MySQL healthcheck passes
+      mailhog:
+        condition: service_started
     environment:
-      SMTP_HOST: mailhog
-      SMTP_PORT: "1025"
-      SMTP_AUTH: "false"
-      SMTP_TLS: "false"
-      EMAIL_FROM: reports@stock-performance.local
+      # ── Database ──────────────────────────────────────────────────────
+      DB_HOST:     mysql
+      DB_PORT:     "3306"
+      DB_NAME:     stockdb
+      DB_USER:     stockuser
+      DB_PASSWORD: stockpass
+      # ── SMTP / MailHog ────────────────────────────────────────────────
+      SMTP_HOST:       mailhog
+      SMTP_PORT:       "1025"
+      SMTP_AUTH:       "false"
+      SMTP_TLS:        "false"
+      EMAIL_FROM:      reports@stock-performance.local
       EMAIL_FROM_NAME: "Stock Performance Bot"
-      EMAIL_TO: analyst@example.com
+      EMAIL_TO:        analyst@example.com
     volumes:
-      # Mount the output directory so generated CSVs are accessible on the host.
+      # Generated CSVs (monthly_average_prices.csv, Nday.csv) land here.
       - ./output:/app/output
-    command: ["files/stock_prices.csv", "7"]
+    # "db" triggers Part 2 mode: load CSVs → compute monthly averages → email.
+    # Override with "files/stock_prices.csv 7" for Part 1 CSV mode.
+    command: ["db"]
 
   # ── MailHog – Fake SMTP for local e-mail testing ──────────────────────────
   mailhog:
     image: mailhog/mailhog:v1.0.1
     container_name: stock-performance-mailhog
     ports:
-      - "1025:1025"   # SMTP
+      - "1025:1025"   # SMTP  (app sends here)
       - "8025:8025"   # Web UI  →  http://localhost:8025
     restart: unless-stopped
 
+volumes:
+  # Named volume so MySQL data persists across `docker compose down` / `up` cycles.
+  # Run `docker compose down -v` to wipe the database and start fresh.
+  mysql-data:
