@@ -18,7 +18,7 @@ RUN mvn package -DskipTests -q
 #  Stage 2 – Runtime
 #  Slim JRE image; only the fat jar and input data are copied.
 # ─────────────────────────────────────────────────────────────────────────────
-FROM eclipse-temurin:17-jre-alpine AS runtime
+FROM eclipse-temurin:17-jre AS runtime
 
 LABEL maintainer="Stock Performance Calculator"
 LABEL description="Calculates N-day trading performance from historical stock prices."
@@ -41,7 +41,7 @@ ENV SMTP_HOST=mailhog          \
     SMTP_TLS=false              \
     EMAIL_FROM=reports@stock-performance.local \
     EMAIL_FROM_NAME="Stock Performance Bot"    \
-    EMAIL_TO=karirasaumya@gmail.com
+    EMAIL_TO=analyst@example.com
 
 # Default: compute 7-day performance.
 # Override with:  docker run ... <image> files/stock_prices.csv 30

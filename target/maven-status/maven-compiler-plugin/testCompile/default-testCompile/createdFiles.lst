@@ -1,0 +1,4 @@
+com/project/service/PerformanceCalculatorTest.class
+com/project/model/ModelTest.class
+com/project/service/CsvWriterServiceTest.class
+com/project/service/CsvReaderServiceTest.class

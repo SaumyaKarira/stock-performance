@@ -1,0 +1,8 @@
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/main/java/com/project/Main.java
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/main/java/com/project/model/PerformanceRecord.java
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/main/java/com/project/model/StockPrice.java
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/main/java/com/project/service/CsvReaderService.java
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/main/java/com/project/service/CsvWriterService.java
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/main/java/com/project/service/EmailService.java
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/main/java/com/project/service/PerformanceCalculator.java
+/Users/saumyakarira/Downloads/IntellijProjects/stock-performance/src/main/java/com/project/util/FileUtils.java
