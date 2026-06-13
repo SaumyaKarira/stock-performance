@@ -42,9 +42,11 @@ public class StockRepository {
     /**
      * Monthly-average SQL.
      *
-     * <p>Groups by (symbol, year, month) so that partial months at the start
+     * <p>Groups by (symbol, year, month, date_format) so that partial months at the start
      * and end of the dataset produce their own rows. {@code UPPER(DATE_FORMAT(…,'%b'))}
-     * converts MySQL's abbreviated month name ('Jan') to the required 'JAN' format.</p>
+     * converts MySQL's abbreviated month name ('Jan') to the required 'JAN' format.
+     * {@code DATE_FORMAT(sp.price_date,'%b')} is included in the GROUP BY to satisfy
+     * MySQL's {@code ONLY_FULL_GROUP_BY} sql_mode.</p>
      *
      * <p>Ordering: symbol A→Z, then chronological year/month.</p>
      */
@@ -58,7 +60,8 @@ public class StockRepository {
             GROUP BY
                 si.symbol,
                 YEAR(sp.price_date),
-                MONTH(sp.price_date)
+                MONTH(sp.price_date),
+                DATE_FORMAT(sp.price_date, '%b')
             ORDER BY
                 si.symbol           ASC,
                 YEAR(sp.price_date) ASC,

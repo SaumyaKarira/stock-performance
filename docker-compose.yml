@@ -17,8 +17,9 @@ version: "3.9"
 #    MySQL Workbench, DBeaver, and the MailHog Web UI work from your laptop.
 #
 #  Usage:
-#    docker compose up --build          # full Part 2 run (DB + monthly averages)
-#    docker compose run app files/stock_prices.csv 7   # Part 1 CSV mode
+#    docker compose up --build                          # full Part 2 run (DB + monthly averages)
+#    docker compose run --rm app db                     # re-run Part 2 (monthly averages + email) without rebuilding
+#    docker compose run --rm app files/stock_prices.csv 7   # Part 1 CSV mode
 #    Open http://localhost:8025 to view captured emails in MailHog.
 # ─────────────────────────────────────────────────────────────────────────────
 
